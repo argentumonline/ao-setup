@@ -1,0 +1,15 @@
+frmAOSetup = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+chameleonButton = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+PBarY = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+mod_DirectX = 78, 78, 1070, 738, 
+mod_General = 52, 52, 1242, 548, Z
+frmVideoConfig = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+frmTestINET = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+frmTestRICH = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+frmTestCS = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+DownloadForm = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+mod_MD5 = 0, 0, 0, 0, C
+frmTestWS = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+frmAbout = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+DownloadFormSimple = 26, 26, 1216, 522, , 0, 0, 0, 0, C
+frmLibrerias = 0, 0, 0, 0, C, 0, 0, 0, 0, C
