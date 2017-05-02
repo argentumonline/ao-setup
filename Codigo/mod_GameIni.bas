@@ -64,15 +64,17 @@ On Error GoTo ErrHandler
     
     Exit Sub
 ErrHandler:
-  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub LoadUserConfig de frmOpciones.frm")
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub LoadUserConfig de mod_GameIni.bas")
 End Sub
 
 Public Sub SaveUserConfig()
+On Error GoTo ErrHandler:
     Dim iniMan As clsIniManager
     Set iniMan = New clsIniManager
     Dim sPath As String
-    sPath = App.path & INIT_PATH & "UserConfig.ini"
     Dim oFile As Integer
+    
+    sPath = App.path & INIT_PATH & "UserConfig.ini"
     
     If Not FileExist(sPath, vbArchive) Then
         ' Create an empty file if don't exists.
@@ -91,10 +93,16 @@ Public Sub SaveUserConfig()
     Call iniMan.ChangeValue("GraphicsEngine", "SelectedPlugin", ClientConfig.ddexSelectedPlugin)
     Call iniMan.DumpFile(sPath)
     
+    Exit Sub
+ErrHandler:
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub SaveUserConfig de mod_GameIni.bas")
+    
 End Sub
 
 
 Private Sub LoadDefaultUserConfig()
+On Error GoTo ErrHandler:
+
     ClientConfig.ddexConfig.api = API_grafica.OGL ' This is not used anymore, but needed. FUCK YOU LOOPZER!
     ClientConfig.ddexConfig.isDefferal = 1
     ClientConfig.ddexConfig.memoria = MODO_MEMORIA.DX9_MEM_A
@@ -102,4 +110,10 @@ Private Sub LoadDefaultUserConfig()
     ClientConfig.ddexConfig.MODO2 = MODO2.DX9_VH
     ClientConfig.ddexConfig.vsync = 0 ' Not used anymore, but needed.
     ClientConfig.ddexSelectedPlugin = "DDEX_DX9.dll"
+    
+        
+    Exit Sub
+ErrHandler:
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub LoadDefaultUserConfig de mod_GameIni.bas")
+  
 End Sub
