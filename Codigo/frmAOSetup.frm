@@ -728,44 +728,44 @@ Private Sub bAceptar_Click()
 '*************************************************
     Dim sFile As String
     
-    setupMod.bNoSound = Not CBool(Me.chkSonido.Value)
+    ClientConfig.bNoSound = Not CBool(Me.chkSonido.value)
     
-    setupMod.bNoMusic = Not CBool(Me.chkMusica.Value)
+    ClientConfig.bNoMusic = Not CBool(Me.chkMusica.value)
     
-    setupMod.bNoRes = Not CBool(Me.chkPantallaCompleta.Value) ' 24/06/2006 - ^[GS]^
+    ClientConfig.bNoRes = Not CBool(Me.chkPantallaCompleta.value) ' 24/06/2006 - ^[GS]^
     
-    setupMod.bUseVideo = CBool(Me.chkUserVideo.Value)
+    ClientConfig.bUseVideo = CBool(Me.chkUserVideo.value)
     
-    setupMod.bDinamic = Me.chkDinamico.Value
+    ClientConfig.bDinamic = Me.chkDinamico.value
     
-    setupMod.byMemory = CByte(Me.pMemoria.Value)
+    ClientConfig.byMemory = CByte(Me.pMemoria.value)
     
-    setupMod.bNoSoundEffects = Not CBool(Me.chkEfectos.Value)
+    ClientConfig.bNoSoundEffects = Not CBool(Me.chkEfectos.value)
     
-    If optBig.Value Then
+    If optBig.value Then
         sFile = "Graficos3.ind"
-    ElseIf OptAverage.Value Then
+    ElseIf OptAverage.value Then
         sFile = "Graficos2.ind"
     Else
         sFile = "Graficos1.ind"
     End If
     
-    setupMod.sGraficos = sFile
+    ClientConfig.sGraficos = sFile
     
-    setupMod.bGuildNews = Not setupMod.bGuildNews
-    setupMod.bCantMsgs = Val(txtCantMsgs.Text)
+    ClientConfig.bGuildNews = Not ClientConfig.bGuildNews
+    ClientConfig.bCantMsgs = Val(txtCantMsgs.text)
     DoEvents
     
     Dim handle As Integer
     handle = FreeFile
-    Open App.Path & "\Init\AO.DAT" For Binary As handle
-        Put handle, , setupMod
+    Open App.path & "\Init\AO.DAT" For Binary As handle
+        Put handle, , ClientConfig
     Close handle
     DoEvents
     
-    If cEjecutar.Value = 1 Then
-        If FileExist(App.Path & "\Argentum.exe", vbArchive) = True Then _
-            Call Shell(App.Path & "\Argentum.exe")
+    If cEjecutar.value = 1 Then
+        If FileExist(App.path & "\Argentum.exe", vbArchive) = True Then _
+            Call Shell(App.path & "\Argentum.exe")
         DoEvents
     End If
     
@@ -789,14 +789,14 @@ Private Sub bProbarSonido_Click()
 '*************************************************
 On Error Resume Next
     
-    If bProbarSonido.Value = True Then
+    If bProbarSonido.value = True Then
         ' [GS]
         Dim sonido As String
-        sonido = App.Path & "\wav\18.wav"
+        sonido = App.path & "\wav\18.wav"
         
         If FileExist(sonido, vbArchive) = False Then
             MsgBox "No se puede probar el sonido porque falta el archivo de pruebas.", vbCritical
-            bProbarSonido.Value = False ' 24/06/06 - ^[GS]^
+            bProbarSonido.value = False ' 24/06/06 - ^[GS]^
             Exit Sub
         End If
         ' [/GS]
@@ -821,7 +821,7 @@ On Error Resume Next
     End If
 End Sub
 
-Sub LoadWave(i As Integer, sFile As String)
+Sub LoadWave(I As Integer, sFile As String)
 '*************************************************
 'Author: Ivan Leoni y Fernando Costa
 'Last modified: 10/03/06
@@ -854,7 +854,7 @@ Private Sub bProbarVideo_Click()
 
     Load frmVideoConfig
 Exit Sub
-If bProbarVideo.Value = True Then
+If bProbarVideo.value = True Then
     DirectDrawTest.Visible = True
     Call DirectDrawTestStart
 Else
@@ -877,7 +877,7 @@ Private Sub chkDinamico_Click()
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last modified: 10/03/06
 '*************************************************
-    If chkDinamico.Value Then
+    If chkDinamico.value Then
         lCuantoVideo.ForeColor = vbBlack
         pMemoria.EnabledSlider = True
         pMemoria.picFillColor = &H8080FF
@@ -912,6 +912,7 @@ On Error Resume Next
     DoEvents
     
     Call LeerSetup
+    Call mod_GameIni.LoadUserConfig
     
     Call mod_DirectX.ProbarDirectX
     lDirectX.Caption = mod_DirectX.GetVersion()
@@ -929,19 +930,19 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 End Sub
 
 Private Sub optConsola_Click()
-    setupMod.bGldMsgConsole = True
+    ClientConfig.bGldMsgConsole = True
 End Sub
 
 Private Sub optMostrarNoticias_Click()
-    setupMod.bGuildNews = True
+    ClientConfig.bGuildNews = True
 End Sub
 
 Private Sub optNoMostrar_Click()
-    setupMod.bGuildNews = False
+    ClientConfig.bGuildNews = False
 End Sub
 
 Private Sub optPantalla_Click()
-    setupMod.bGldMsgConsole = False
+    ClientConfig.bGldMsgConsole = False
 End Sub
 
 Private Sub pMemoria_ChangeValue(NewValue As Long, OldValue As Long)
@@ -1023,12 +1024,12 @@ Public Sub DirectDrawTestStart()
 '*************************************************
     
     ' [GS] 24/06/06 - ^[GS]^
-    If FileExist(App.Path & "\Graficos\test.bmp", vbArchive) = False Then
+    If FileExist(App.path & "\Graficos\test.bmp", vbArchive) = False Then
         DirectDrawTest.Visible = False
         Timer1.Enabled = False
         running = False
         MsgBox "No se puede probar el video porque falta el archivo de pruebas.", vbCritical
-        bProbarVideo.Value = False
+        bProbarVideo.value = False
         Exit Sub
     End If
     ' [/GS]
@@ -1084,7 +1085,7 @@ Private Sub Init()
         Dim ddsdChar As DDSURFACEDESC2
         ddsdChar.lFlags = DDSD_CAPS Or DDSD_WIDTH Or DDSD_HEIGHT
         ddsdChar.ddsCaps.lCaps = DDSCAPS_OFFSCREENPLAIN Or DDSCAPS_SYSTEMMEMORY
-        Set ddsCharacter = DirectDraw.CreateSurfaceFromFile(App.Path & "\Graficos\test.bmp", ddsdChar)
+        Set ddsCharacter = DirectDraw.CreateSurfaceFromFile(App.path & "\Graficos\test.bmp", ddsdChar)
     End If
     
     'Store char size

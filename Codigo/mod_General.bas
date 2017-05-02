@@ -27,41 +27,43 @@ Public Type DDEXCFG
     Modo As Byte
     MODO2 As Byte
     memoria As Byte
+    isDefferal As Byte
 End Type
 
 Public Type tSetupMods
-    bDinamic        As Boolean
-    byMemory        As Byte
-    bUseVideo       As Boolean
-    bNoMusic        As Boolean
-    bNoSound        As Boolean
-    bNoRes          As Boolean ' 24/06/2006 - ^[GS]^
+    bDinamic    As Boolean
+    byMemory    As Byte
+    bUseVideo   As Boolean
+    bNoMusic    As Boolean
+    bNoSound    As Boolean
+    bNoRes      As Boolean ' 24/06/2006 - ^[GS]^
     bNoSoundEffects As Boolean
-    sGraficos       As String * 13
-    bGuildNews      As Boolean ' 11/19/09 - Pato
-    bDie            As Boolean ' 11/23/09 - FragShooter
-    bKill           As Boolean ' 11/23/09 - FragShooter
-    byMurderedLevel As Byte    ' 11/23/09 - FragShooter
-    bActive         As Boolean
-    bGldMsgConsole  As Boolean
-    bCantMsgs       As Byte
+    sGraficos   As String * 13
+    bGuildNews  As Boolean ' 11/19/09
+    bDie        As Boolean ' 11/23/09 - FragShooter
+    bKill       As Boolean ' 11/23/09 - FragShooter
+    byMurderedLevel As Byte ' 11/23/09 - FragShooter
+    bActive     As Boolean
+    bGldMsgConsole As Boolean
+    bCantMsgs   As Byte
     bRightClick As Boolean
     ddexConfig As DDEXCFG
     ddexConfigured As Boolean
+    ddexSelectedPlugin As String
 End Type
 
-Public setupMod As tSetupMods
+Public ClientConfig As tSetupMods
 
 Public Const SW_SHOWNORMAL As Long = 1
 Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
-Public Function FileExist(ByVal file As String, ByVal fileType As VbFileAttribute) As Boolean
+Public Function FileExist(ByVal File As String, ByVal fileType As VbFileAttribute) As Boolean
 '*************************************************
 'Author: Ivan Leoni y Fernando Costa
 'Last modified: ?/?/?
 'Se fija si existe el archivo
 '*************************************************
-    FileExist = Dir(file, fileType) <> ""
+    FileExist = Dir(File, fileType) <> ""
 End Function
 
 Public Sub LeerSetup()
@@ -71,70 +73,70 @@ Public Sub LeerSetup()
 '11/19/09: Pato - Now is optional show the frmGuildNews form in the client
 '*************************************************
 On Error Resume Next
-    If Not FileExist(App.Path & "\INIT\", vbDirectory) Then
-        Call MkDir(App.Path & "\INIT\")
+    If Not FileExist(App.path & "\INIT\", vbDirectory) Then
+        Call MkDir(App.path & "\INIT\")
     End If
     
     Dim handle As Integer
     handle = FreeFile
     
-    Open App.Path & "\Init\AO.dat" For Binary As handle
-        Get handle, , setupMod
+    Open App.path & "\Init\AO.dat" For Binary As handle
+        Get handle, , ClientConfig
     Close handle
     
-    If setupMod.bDinamic Then
-        frmAOSetup.chkDinamico.Value = True
+    If ClientConfig.bDinamic Then
+        frmAOSetup.chkDinamico.value = True
         frmAOSetup.lCuantoVideo.ForeColor = vbBlack
         frmAOSetup.pMemoria.EnabledSlider = True
         frmAOSetup.pMemoria.picFillColor = &H8080FF
         frmAOSetup.pMemoria.picForeColor = &H80FF80
     Else
-        frmAOSetup.chkDinamico.Value = False
+        frmAOSetup.chkDinamico.value = False
         frmAOSetup.lCuantoVideo.ForeColor = &H808080
         frmAOSetup.pMemoria.EnabledSlider = False
         frmAOSetup.pMemoria.picFillColor = &H808080
         frmAOSetup.pMemoria.picForeColor = &HC0C0C0
     End If
     
-    If setupMod.byMemory >= 4 And setupMod.byMemory <= 40 Then
-        frmAOSetup.pMemoria.Value = setupMod.byMemory
+    If ClientConfig.byMemory >= 4 And ClientConfig.byMemory <= 40 Then
+        frmAOSetup.pMemoria.value = ClientConfig.byMemory
     End If
     
-    frmAOSetup.chkPantallaCompleta.Value = Not setupMod.bNoRes ' 24/06/2006 - ^[GS]^
+    frmAOSetup.chkPantallaCompleta.value = Not ClientConfig.bNoRes ' 24/06/2006 - ^[GS]^
     
-    frmAOSetup.chkUserVideo = setupMod.bUseVideo
+    frmAOSetup.chkUserVideo = ClientConfig.bUseVideo
     
-    frmAOSetup.chkMusica.Value = Not setupMod.bNoMusic
+    frmAOSetup.chkMusica.value = Not ClientConfig.bNoMusic
     
-    frmAOSetup.chkSonido.Value = Not setupMod.bNoSound
+    frmAOSetup.chkSonido.value = Not ClientConfig.bNoSound
     
-    frmAOSetup.chkEfectos.Value = Not setupMod.bNoSoundEffects
+    frmAOSetup.chkEfectos.value = Not ClientConfig.bNoSoundEffects
     
-    If setupMod.sGraficos <> vbNullString Then
-        If setupMod.sGraficos = "Graficos1.ind" Then
-            frmAOSetup.optSmall.Value = True
-        ElseIf setupMod.sGraficos = "Graficos2.ind" Then
-            frmAOSetup.OptAverage.Value = True
+    If ClientConfig.sGraficos <> vbNullString Then
+        If ClientConfig.sGraficos = "Graficos1.ind" Then
+            frmAOSetup.optSmall.value = True
+        ElseIf ClientConfig.sGraficos = "Graficos2.ind" Then
+            frmAOSetup.OptAverage.value = True
         End If
     End If
     
-    setupMod.bGuildNews = Not setupMod.bGuildNews
+    ClientConfig.bGuildNews = Not ClientConfig.bGuildNews
     
-    If setupMod.bGuildNews Then
-        frmAOSetup.optMostrarNoticias.Value = True
-        frmAOSetup.optNoMostrar.Value = False
+    If ClientConfig.bGuildNews Then
+        frmAOSetup.optMostrarNoticias.value = True
+        frmAOSetup.optNoMostrar.value = False
     Else
-        frmAOSetup.optMostrarNoticias.Value = False
-        frmAOSetup.optNoMostrar.Value = True
+        frmAOSetup.optMostrarNoticias.value = False
+        frmAOSetup.optNoMostrar.value = True
     End If
     
-    If setupMod.bCantMsgs = 0 Then setupMod.bCantMsgs = 5
+    If ClientConfig.bCantMsgs = 0 Then ClientConfig.bCantMsgs = 5
 
-    frmAOSetup.optConsola.Value = setupMod.bGldMsgConsole
-    frmAOSetup.txtCantMsgs.Text = setupMod.bCantMsgs
+    frmAOSetup.optConsola.value = ClientConfig.bGldMsgConsole
+    frmAOSetup.txtCantMsgs.text = ClientConfig.bCantMsgs
 End Sub
 
-Public Function LibraryExist(ByVal file As String, ByVal fileType As VbFileAttribute) As Boolean
+Public Function LibraryExist(ByVal File As String, ByVal fileType As VbFileAttribute) As Boolean
 '*************************************************
 'Author: Lucas Tavolaro Ortiz (Tavo)
 'Last modified: 10/01/07
@@ -145,13 +147,13 @@ Public Function LibraryExist(ByVal file As String, ByVal fileType As VbFileAttri
 'Chequeo progresivo a mano, primero se fija en el mismo path
 LibraryExist = True
 
-If FileExist(file, fileType) Then
-    Shell "regsvr32 /s " & file
+If FileExist(File, fileType) Then
+    Shell "regsvr32 /s " & File
     Exit Function
 End If
 
-If FileExist("C:\WINDOWS\SYSTEM32\" & file, fileType) Then
-    Shell "regsvr32 /s " & file
+If FileExist("C:\WINDOWS\SYSTEM32\" & File, fileType) Then
+    Shell "regsvr32 /s " & File
     Exit Function
 End If
 
@@ -159,8 +161,8 @@ Dim fsoObject As FileSystemObject
 
 Set fsoObject = New FileSystemObject
 
-If fsoObject.FileExists(file) Then
-    Shell "regsvr32 /s " & file
+If fsoObject.FileExists(File) Then
+    Shell "regsvr32 /s " & File
     
     Set fsoObject = Nothing
     Exit Function
@@ -171,3 +173,23 @@ Set fsoObject = Nothing
 
 MsgBox fsoObject.GetAbsolutePathName(vbNullString)
 End Function
+
+
+Public Sub LogError(ByVal errStr As String)
+On Error GoTo ErrHandler
+  
+    Dim path As String
+    Dim oFile As Integer
+    
+    path = App.path & "\Errores" & Year(Now) & Month(Now) & Day(Now) & ".log"
+    oFile = FreeFile
+    
+    Open path For Append As #oFile
+        Print #oFile, Time & " - " & errStr
+    Close #oFile
+  
+  Exit Sub
+  
+ErrHandler:
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub LogError de General.bas")
+End Sub

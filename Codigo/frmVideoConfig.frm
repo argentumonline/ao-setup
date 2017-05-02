@@ -2,18 +2,18 @@ VERSION 5.00
 Begin VB.Form frmVideoConfig 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Video"
-   ClientHeight    =   4305
+   ClientHeight    =   3690
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   3615
+   ClientWidth     =   3600
    Icon            =   "frmVideoConfig.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   4305
-   ScaleWidth      =   3615
+   ScaleHeight     =   3690
+   ScaleWidth      =   3600
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame1 
-      Height          =   3735
+      Height          =   3135
       Left            =   120
       TabIndex        =   1
       Top             =   0
@@ -22,54 +22,47 @@ Begin VB.Form frmVideoConfig
          Height          =   315
          ItemData        =   "frmVideoConfig.frx":0442
          Left            =   120
-         List            =   "frmVideoConfig.frx":0449
+         List            =   "frmVideoConfig.frx":044C
          Style           =   2  'Dropdown List
-         TabIndex        =   6
+         TabIndex        =   5
          Top             =   480
          Width           =   2895
       End
       Begin VB.ComboBox cboModoVideo 
          Height          =   315
-         ItemData        =   "frmVideoConfig.frx":0458
+         ItemData        =   "frmVideoConfig.frx":0475
          Left            =   120
-         List            =   "frmVideoConfig.frx":0465
+         List            =   "frmVideoConfig.frx":0482
          Style           =   2  'Dropdown List
-         TabIndex        =   5
+         TabIndex        =   4
          Top             =   1200
          Width           =   2895
       End
       Begin VB.ComboBox cboModoVertex 
          Height          =   315
-         ItemData        =   "frmVideoConfig.frx":0498
+         ItemData        =   "frmVideoConfig.frx":04B5
          Left            =   120
-         List            =   "frmVideoConfig.frx":04A2
+         List            =   "frmVideoConfig.frx":04BF
          Style           =   2  'Dropdown List
-         TabIndex        =   4
+         TabIndex        =   3
          Top             =   1920
          Width           =   2895
       End
       Begin VB.ComboBox cboModoMemoria 
          Height          =   315
-         ItemData        =   "frmVideoConfig.frx":04BA
+         ItemData        =   "frmVideoConfig.frx":04D7
          Left            =   120
-         List            =   "frmVideoConfig.frx":04C7
+         List            =   "frmVideoConfig.frx":04E4
          Style           =   2  'Dropdown List
-         TabIndex        =   3
+         TabIndex        =   2
          Top             =   2640
          Width           =   2895
-      End
-      Begin VB.CheckBox chkVerticalSync 
-         Height          =   255
-         Left            =   1440
-         TabIndex        =   2
-         Top             =   3240
-         Width           =   375
       End
       Begin VB.Label Label5 
          Caption         =   "Modo de memoria"
          Height          =   255
          Left            =   120
-         TabIndex        =   11
+         TabIndex        =   9
          Top             =   2400
          Width           =   1335
       End
@@ -77,7 +70,7 @@ Begin VB.Form frmVideoConfig
          Caption         =   "Modo vertex"
          Height          =   255
          Left            =   120
-         TabIndex        =   10
+         TabIndex        =   8
          Top             =   1680
          Width           =   1095
       End
@@ -85,7 +78,7 @@ Begin VB.Form frmVideoConfig
          Caption         =   "Modo de video"
          Height          =   255
          Left            =   120
-         TabIndex        =   9
+         TabIndex        =   7
          Top             =   960
          Width           =   1455
       End
@@ -93,24 +86,16 @@ Begin VB.Form frmVideoConfig
          Caption         =   "Librería Gráfica"
          Height          =   255
          Left            =   120
-         TabIndex        =   8
+         TabIndex        =   6
          Top             =   240
          Width           =   1335
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Vertical Sync"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   7
-         Top             =   3240
-         Width           =   975
       End
    End
    Begin AOSetup.chameleonButton bCancelar 
       Height          =   375
       Left            =   120
       TabIndex        =   0
-      Top             =   3840
+      Top             =   3240
       Width           =   3375
       _ExtentX        =   5953
       _ExtentY        =   661
@@ -134,7 +119,7 @@ Begin VB.Form frmVideoConfig
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmVideoConfig.frx":04EF
+      MICON           =   "frmVideoConfig.frx":050C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -193,22 +178,26 @@ Private Sub LoadOptions()
     'Author: Nightw
     'Last modified: 04/06/15
     '*************************************************
-    If setupMod.ddexConfigured = False Then
+    If ClientConfig.ddexConfigured = False Then
         cboApiGrafica.ListIndex = 0
         cboModoMemoria.ListIndex = 0
         cboModoVideo.ListIndex = 0
-        cboModoVertex.ListIndex = setupMod.ddexConfig.MODO2
-        
-    
-        chkVerticalSync.Value = 1
+        cboModoVertex.ListIndex = ClientConfig.ddexConfig.MODO2
+      
     Else
-        cboApiGrafica.ListIndex = setupMod.ddexConfig.api
-        cboModoMemoria.ListIndex = setupMod.ddexConfig.memoria
-        cboModoVideo.ListIndex = setupMod.ddexConfig.Modo
-        cboModoVertex.ListIndex = setupMod.ddexConfig.MODO2
+        Select Case Trim(ClientConfig.ddexSelectedPlugin)
+            Case "DDEX_DX9.dll"
+                cboApiGrafica.ListIndex = 0
+            Case "DDEX_DX8.dll"
+                cboApiGrafica.ListIndex = 1
+            Case Else
+                cboApiGrafica.ListIndex = 0
+        End Select
         
-    
-        chkVerticalSync.Value = IIf(setupMod.ddexConfig.vsync = 1, 1, 0)
+        cboModoMemoria.ListIndex = ClientConfig.ddexConfig.memoria
+        cboModoVideo.ListIndex = ClientConfig.ddexConfig.Modo
+        cboModoVertex.ListIndex = ClientConfig.ddexConfig.MODO2
+        
     End If
     
 End Sub
@@ -219,12 +208,23 @@ Private Sub SaveOptions()
     'Author: Nightw
     'Last modified: 04/06/15
     '*************************************************
-    setupMod.ddexConfig.api = cboApiGrafica.ListIndex
-    setupMod.ddexConfig.memoria = cboModoMemoria.ListIndex
-    setupMod.ddexConfig.Modo = cboModoVideo.ListIndex
-    setupMod.ddexConfig.MODO2 = cboModoVertex.ListIndex
-    setupMod.ddexConfig.vsync = IIf(chkVerticalSync.Value, 1, 0)
-    setupMod.ddexConfigured = True
+    ClientConfig.ddexConfig.api = cboApiGrafica.ListIndex
+    ClientConfig.ddexConfig.memoria = cboModoMemoria.ListIndex
+    ClientConfig.ddexConfig.Modo = cboModoVideo.ListIndex
+    ClientConfig.ddexConfig.MODO2 = cboModoVertex.ListIndex
+    ClientConfig.ddexConfigured = True
     
+    Select Case cboApiGrafica.ListIndex
+        Case 0
+            ClientConfig.ddexSelectedPlugin = "DDEX_DX9.dll"
+        Case 1
+            ClientConfig.ddexSelectedPlugin = "DDEX_DX8.dll"
+        Case Else
+            ClientConfig.ddexSelectedPlugin = "DDEX_DX9.dll"
+    End Select
+    
+    
+    
+    Call mod_GameIni.SaveUserConfig
 End Sub
 

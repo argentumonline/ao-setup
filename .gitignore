@@ -1,0 +1,14 @@
+INIT/
+*.exe
+*.dll
+*.url
+*.dat
+*.vbw
+!utilex.dll
+!freetype6.dll
+!ijl11.dll
+!vbabdx.dll
+!zlib.dll
+!zlib1.dll
+/*.dll
+/*.vbw
