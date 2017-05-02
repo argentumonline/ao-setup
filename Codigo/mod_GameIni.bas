@@ -38,6 +38,7 @@ On Error GoTo ErrHandler
     
     If Not FileExist(sPath, vbArchive) Then
         ' Create a default configuration file if it's not present
+        Call LoadDefaultUserConfig
     End If
     
     Call iniMan.Initialize(sPath)
@@ -111,7 +112,8 @@ On Error GoTo ErrHandler:
     ClientConfig.ddexConfig.vsync = 0 ' Not used anymore, but needed.
     ClientConfig.ddexSelectedPlugin = "DDEX_DX9.dll"
     
-        
+    'Save the default values.
+    Call SaveUserConfig
     Exit Sub
 ErrHandler:
   Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub LoadDefaultUserConfig de mod_GameIni.bas")
