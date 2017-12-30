@@ -728,42 +728,41 @@ Private Sub bAceptar_Click()
 '*************************************************
     Dim sFile As String
     
-    ClientConfig.bNoSound = Not CBool(Me.chkSonido.value)
+    ' Sounds
+    GameConfig.Sounds.bSoundsEnabled = CBool(Me.chkSonido.Value)
+    GameConfig.Sounds.bMusicEnabled = CBool(Me.chkMusica.Value)
+    GameConfig.Sounds.bSoundEffectsEnabled = Not CBool(Me.chkEfectos.Value)
     
-    ClientConfig.bNoMusic = Not CBool(Me.chkMusica.value)
-    
-    ClientConfig.bNoRes = Not CBool(Me.chkPantallaCompleta.value) ' 24/06/2006 - ^[GS]^
-    
-    ClientConfig.bUseVideo = CBool(Me.chkUserVideo.value)
-    
-    ClientConfig.bDinamic = Me.chkDinamico.value
-    
-    ClientConfig.byMemory = CByte(Me.pMemoria.value)
-    
-    ClientConfig.bNoSoundEffects = Not CBool(Me.chkEfectos.value)
-    
-    If optBig.value Then
+    ' Graphics
+    GameConfig.Graphics.bUseFullScreen = CBool(Me.chkPantallaCompleta.Value)
+    GameConfig.Graphics.bUseVideoMemory = CBool(Me.chkUserVideo.Value)
+    GameConfig.Graphics.bUseDynamicLoad = CBool(Me.chkDinamico.Value)
+    GameConfig.Graphics.MaxVideoMemory = CByte(Me.pMemoria.Value)
+        
+    If optBig.Value Then
         sFile = "Graficos3.ind"
-    ElseIf OptAverage.value Then
+    ElseIf OptAverage.Value Then
         sFile = "Graficos2.ind"
     Else
         sFile = "Graficos1.ind"
     End If
     
-    ClientConfig.sGraficos = sFile
+    GameConfig.Graphics.GraphicsIndToUse = sFile
     
-    ClientConfig.bGuildNews = Not ClientConfig.bGuildNews
-    ClientConfig.bCantMsgs = Val(txtCantMsgs.text)
+    GameConfig.Guilds.MaxMessageQuantity = Val(txtCantMsgs.text)
+    
     DoEvents
     
-    Dim handle As Integer
-    handle = FreeFile
-    Open App.path & "\Init\AO.DAT" For Binary As handle
-        Put handle, , ClientConfig
-    Close handle
-    DoEvents
+    Call SaveGameConfig
     
-    If cEjecutar.value = 1 Then
+    'Dim handle As Integer
+    'handle = FreeFile
+    'Open App.path & "\Init\AO.DAT" For Binary As handle
+    '    Put handle, , ClientConfig
+    'Close handle
+    'DoEvents
+    
+    If cEjecutar.Value = 1 Then
         If FileExist(App.path & "\Argentum.exe", vbArchive) = True Then _
             Call Shell(App.path & "\Argentum.exe")
         DoEvents
@@ -789,14 +788,14 @@ Private Sub bProbarSonido_Click()
 '*************************************************
 On Error Resume Next
     
-    If bProbarSonido.value = True Then
+    If bProbarSonido.Value = True Then
         ' [GS]
         Dim sonido As String
         sonido = App.path & "\wav\18.wav"
         
         If FileExist(sonido, vbArchive) = False Then
             MsgBox "No se puede probar el sonido porque falta el archivo de pruebas.", vbCritical
-            bProbarSonido.value = False ' 24/06/06 - ^[GS]^
+            bProbarSonido.Value = False ' 24/06/06 - ^[GS]^
             Exit Sub
         End If
         ' [/GS]
@@ -821,7 +820,7 @@ On Error Resume Next
     End If
 End Sub
 
-Sub LoadWave(I As Integer, sFile As String)
+Sub LoadWave(i As Integer, sFile As String)
 '*************************************************
 'Author: Ivan Leoni y Fernando Costa
 'Last modified: 10/03/06
@@ -853,8 +852,9 @@ Private Sub bProbarVideo_Click()
 '*************************************************
 
     Load frmVideoConfig
+    
 Exit Sub
-If bProbarVideo.value = True Then
+If bProbarVideo.Value = True Then
     DirectDrawTest.Visible = True
     Call DirectDrawTestStart
 Else
@@ -877,7 +877,7 @@ Private Sub chkDinamico_Click()
 'Author: Juan Martín Sotuyo Dodero (Maraxus)
 'Last modified: 10/03/06
 '*************************************************
-    If chkDinamico.value Then
+    If chkDinamico.Value Then
         lCuantoVideo.ForeColor = vbBlack
         pMemoria.EnabledSlider = True
         pMemoria.picFillColor = &H8080FF
@@ -888,6 +888,14 @@ Private Sub chkDinamico_Click()
         pMemoria.picFillColor = &H808080
         pMemoria.picForeColor = &HC0C0C0
     End If
+End Sub
+
+Private Sub chkPantallaCompleta_Click()
+    GameConfig.Graphics.bUseFullScreen = CBool(chkPantallaCompleta.Value)
+End Sub
+
+Private Sub chkUserVideo_Click()
+    GameConfig.Graphics.bUseVideoMemory = CBool(chkUserVideo.Value)
 End Sub
 
 Private Sub cLibrerias_Click()
@@ -911,8 +919,10 @@ On Error Resume Next
     
     DoEvents
     
+    Call mod_Configuration.LoadGameConfig
     Call LeerSetup
-    Call mod_GameIni.LoadUserConfig
+    'Call mod_GameIni.LoadUserConfig
+
     
     Call mod_DirectX.ProbarDirectX
     lDirectX.Caption = mod_DirectX.GetVersion()
@@ -930,21 +940,20 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 End Sub
 
 Private Sub optConsola_Click()
-    ClientConfig.bGldMsgConsole = True
+    GameConfig.Guilds.bShowDialogsInConsole = True
 End Sub
 
 Private Sub optMostrarNoticias_Click()
-    ClientConfig.bGuildNews = True
+    GameConfig.Guilds.bShowGuildNews = True
 End Sub
 
 Private Sub optNoMostrar_Click()
-    ClientConfig.bGuildNews = False
+    GameConfig.Guilds.bShowGuildNews = False
 End Sub
 
 Private Sub optPantalla_Click()
-    ClientConfig.bGldMsgConsole = False
+    GameConfig.Guilds.bShowDialogsInConsole = False
 End Sub
-
 Private Sub pMemoria_ChangeValue(NewValue As Long, OldValue As Long)
 '*************************************************
 'Author: ^[GS]^
@@ -1029,7 +1038,7 @@ Public Sub DirectDrawTestStart()
         Timer1.Enabled = False
         running = False
         MsgBox "No se puede probar el video porque falta el archivo de pruebas.", vbCritical
-        bProbarVideo.value = False
+        bProbarVideo.Value = False
         Exit Sub
     End If
     ' [/GS]

@@ -54,6 +54,9 @@ Attribute VB_Exposed = False
 '   - Add:  AddNode method to add a main node.
 '           AddKey method to add key into the refered main node.
 '           DumpFile method to dump the data into a file.
+'30/12/2017 - Torres Patricio(Pato)
+'   - Add:  SaveOpenFile to dump the file using the same path used to initialize the class.
+'           GetFileNameFromPath method to get a filename based on a full path.
 
 
 Option Explicit
@@ -95,6 +98,19 @@ Private fileData() As MainNode
 ''
 'Stores the total number of main sections in the loaded INI file
 Private MainNodes As Long
+
+''
+'Stores the filename of the opened file
+Private fileName As String
+
+''
+'Stores the full path of the opened file
+Private filePath As String
+
+Private Const BOOL_MAX_VALUE As Byte = 1
+Private Const BYTE_MAX_VALUE As Byte = 255
+Private Const INT_MAX_VALUE As Integer = 32767
+Private Const LNG_MAX_VALUE As Long = 2147483647
 
 ''
 'Default constructor. Does nothing.
@@ -164,6 +180,9 @@ On Error GoTo ErrHandler
     handle = FreeFile
     
     Open File For Input As handle
+    
+    filePath = File
+    fileName = GetFileNameFromPath(filePath)
     
     Do Until EOF(handle)
         Line Input #handle, text
@@ -604,6 +623,21 @@ ErrHandler:
   Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Function AddKey de clsIniManager.cls")
 End Function
 
+Public Sub SaveOpenFile()
+    '**************************************************************
+    'Author: Alejandro Masolini (Nightw)
+    'Last Modify Date: 30/12/2017
+    ' Saves the file based on the path used to initialize the class
+    '**************************************************************
+On Error GoTo ErrHandler
+    Call DumpFile(filePath)
+    
+    Exit Sub
+  
+ErrHandler:
+    Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub SaveOpenFile de clsIniManager.cls")
+End Sub
+
 Public Sub DumpFile(ByRef File As String)
 '**************************************************************
 'Author: Torres Patricio (Pato)
@@ -639,3 +673,188 @@ Close hFile
 ErrHandler:
   Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub DumpFile de clsIniManager.cls")
 End Sub
+
+
+''
+'Searches for a given integer key within a given main section and if it exists retrieves it's value, otherwise a default value
+'
+' @param    Main The name of the main section in which we will be searching.
+' @param    key The key of the value we are looking for.
+' @param    defaultValue A default value if the read key was outside the boundaries or not found
+' @returns  The value asociated with the given key under the requeted main section of the INI file or a null string if it's not found.
+
+Public Function GetValueInt(ByRef Main As String, ByRef key As String, Optional ByVal defaultValue As Integer = 0) As Integer
+'**************************************************************
+'Author: Alejandro Masolini
+'Last Modify Date: 28/12/2017
+'Returns an integer value if the key and main node exist, or a default value if it doesnt
+'**************************************************************
+On Error GoTo ErrHandler
+  
+    Dim tmpValue As String
+    Dim tmpValueNumeric As Variant
+    tmpValue = GetValue(Main, key)
+    
+    ' Check if the value is a number
+    If Not IsNumeric(tmpValue) Then
+        GetValueInt = defaultValue
+        Exit Function
+    End If
+    
+    ' Check if the value is greater than the max expected value
+    If Val(tmpValue) > INT_MAX_VALUE Then
+        GetValueInt = defaultValue
+        Exit Function
+    End If
+    
+    GetValueInt = CInt(tmpValue)
+
+  Exit Function
+  
+ErrHandler:
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Function GetValueInt de clsIniManager.cls")
+End Function
+
+''
+'Searches for a given byte key within a given main section and if it exists retrieves it's value, otherwise a default value
+'
+' @param    Main The name of the main section in which we will be searching.
+' @param    key The key of the value we are looking for.
+' @param    defaultValue A default value if the read key was outside the boundaries or not found
+' @returns  The value asociated with the given key under the requeted main section of the INI file or a null string if it's not found.
+
+Public Function GetValueByte(ByRef Main As String, ByRef key As String, Optional ByVal defaultValue As Byte = 0) As Byte
+'**************************************************************
+'Author: Alejandro Masolini
+'Last Modify Date: 28/12/2017
+'Returns an integer value if the key and main node exist, or a default value if it doesnt
+'**************************************************************
+On Error GoTo ErrHandler
+  
+    Dim tmpValue As String
+    Dim tmpValueNumeric As Variant
+    tmpValue = GetValue(Main, key)
+    
+    ' Check if the value is a number
+    If Not IsNumeric(tmpValue) Then
+        GetValueByte = defaultValue
+        Exit Function
+    End If
+    
+    ' Check if the value is greater than the max expected value
+    If Val(tmpValue) > BYTE_MAX_VALUE Then
+        GetValueByte = defaultValue
+        Exit Function
+    End If
+    
+    GetValueByte = CByte(tmpValue)
+
+  Exit Function
+  
+ErrHandler:
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Function GetValueByte de clsIniManager.cls")
+End Function
+
+''
+'Searches for a given boolean key within a given main section and if it exists retrieves it's value, otherwise a default value
+'
+' @param    Main The name of the main section in which we will be searching.
+' @param    key The key of the value we are looking for.
+' @param    defaultValue A default value if the read key was outside the boundaries or not found
+' @returns  The value asociated with the given key under the requeted main section of the INI file or a null string if it's not found.
+
+Public Function GetValueBoolean(ByRef Main As String, ByRef key As String, Optional ByVal defaultValue As Boolean = True) As Boolean
+'**************************************************************
+'Author: Alejandro Masolini
+'Last Modify Date: 28/12/2017
+'Returns an integer value if the key and main node exist, or a default value if it doesnt
+'**************************************************************
+On Error GoTo ErrHandler
+  
+    Dim tmpValue As String
+    tmpValue = UCase(GetValue(Main, key))
+    
+    ' Check if the value is a number
+    If Not IsNumeric(tmpValue) Then
+        ' Check if we got a representation of a boolean like "True" or "False"
+        If tmpValue = "TRUE" Then
+            GetValueBoolean = True
+            Exit Function
+        ElseIf tmpValue = "FALSE" Then
+            GetValueBoolean = False
+            Exit Function
+        Else
+            GetValueBoolean = defaultValue
+            Exit Function
+        End If
+    End If
+    
+    ' Check if the value is greater than the max expected value
+    If Val(tmpValue) > BOOL_MAX_VALUE Or Val(tmpValue) < -1 Then
+        GetValueBoolean = defaultValue
+        Exit Function
+    End If
+    
+    GetValueBoolean = CBool(tmpValue)
+
+  Exit Function
+  
+ErrHandler:
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Function GetValueByte de clsIniManager.cls")
+End Function
+
+''
+'Searches for a given string key within a given main section and if it exists retrieves it's value, otherwise a null string
+'
+' @param    Main The name of the main section in which we will be searching.
+' @param    key The key of the value we are looking for.
+' @param    defaultValue A default value if the read key was outside the boundaries or not found
+' @returns  The value asociated with the given key under the requeted main section of the INI file or a null string if it's not found.
+
+Public Function GetValueString(ByRef Main As String, ByRef key As String, Optional ByRef defaultValue As String = "") As String
+'**************************************************************
+'Author: Juan Martín Sotuyo Dodero
+'Last Modify Date: 5/01/2006
+'Returns a value if the key and main node exist, or a nullstring otherwise
+'**************************************************************
+On Error GoTo ErrHandler
+  
+    Dim tmpValue As String
+    
+    tmpValue = GetValue(Main, key)
+    
+    If tmpValue = vbNullString Then
+        GetValueString = defaultValue
+        Exit Function
+    End If
+    
+    GetValueString = tmpValue
+  
+  Exit Function
+  
+ErrHandler:
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Function GetValue de clsIniManager.cls")
+End Function
+
+
+''
+'Get a filename based on a full path.
+'
+' @param    strFullPath The full path
+' @returns  The filename based on a full path
+Private Function GetFileNameFromPath(strFullPath As String) As String
+'**************************************************************
+'Author: Alejandro Masolini
+'Last Modify Date: 30/12/2017
+'Returns a filename based on a full path
+'**************************************************************
+On Error GoTo ErrHandler
+
+    GetFileNameFromPath = Right(strFullPath, Len(strFullPath) - InStrRev(strFullPath, "\"))
+    
+    Exit Function
+  
+ErrHandler:
+  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Function GetFileNameFromPath de clsIniManager.cls")
+End Function
+

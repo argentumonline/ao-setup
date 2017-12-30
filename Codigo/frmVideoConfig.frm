@@ -178,14 +178,14 @@ Private Sub LoadOptions()
     'Author: Nightw
     'Last modified: 04/06/15
     '*************************************************
-    If ClientConfig.ddexConfigured = False Then
+    If GameConfig.Graphics.ddexConfigured = False Then
         cboApiGrafica.ListIndex = 0
         cboModoMemoria.ListIndex = 0
         cboModoVideo.ListIndex = 0
-        cboModoVertex.ListIndex = ClientConfig.ddexConfig.MODO2
+        cboModoVertex.ListIndex = GameConfig.Graphics.ddexConfig.MODO2
       
     Else
-        Select Case Trim(ClientConfig.ddexSelectedPlugin)
+        Select Case Trim(GameConfig.Graphics.ddexSelectedPlugin)
             Case "DDEX_DX9.dll"
                 cboApiGrafica.ListIndex = 0
             Case "DDEX_DX8.dll"
@@ -194,9 +194,9 @@ Private Sub LoadOptions()
                 cboApiGrafica.ListIndex = 0
         End Select
         
-        cboModoMemoria.ListIndex = ClientConfig.ddexConfig.memoria
-        cboModoVideo.ListIndex = ClientConfig.ddexConfig.Modo
-        cboModoVertex.ListIndex = ClientConfig.ddexConfig.MODO2
+        cboModoMemoria.ListIndex = GameConfig.Graphics.ddexConfig.memoria
+        cboModoVideo.ListIndex = GameConfig.Graphics.ddexConfig.Modo
+        cboModoVertex.ListIndex = GameConfig.Graphics.ddexConfig.MODO2
         
     End If
     
@@ -208,23 +208,22 @@ Private Sub SaveOptions()
     'Author: Nightw
     'Last modified: 04/06/15
     '*************************************************
-    ClientConfig.ddexConfig.api = cboApiGrafica.ListIndex
-    ClientConfig.ddexConfig.memoria = cboModoMemoria.ListIndex
-    ClientConfig.ddexConfig.Modo = cboModoVideo.ListIndex
-    ClientConfig.ddexConfig.MODO2 = cboModoVertex.ListIndex
-    ClientConfig.ddexConfigured = True
+    GameConfig.Graphics.ddexConfig.api = cboApiGrafica.ListIndex
+    GameConfig.Graphics.ddexConfig.memoria = cboModoMemoria.ListIndex
+    GameConfig.Graphics.ddexConfig.Modo = cboModoVideo.ListIndex
+    GameConfig.Graphics.ddexConfig.MODO2 = cboModoVertex.ListIndex
+    GameConfig.Graphics.ddexConfigured = True
     
     Select Case cboApiGrafica.ListIndex
         Case 0
-            ClientConfig.ddexSelectedPlugin = "DDEX_DX9.dll"
+            GameConfig.Graphics.ddexSelectedPlugin = "DDEX_DX9.dll"
         Case 1
-            ClientConfig.ddexSelectedPlugin = "DDEX_DX8.dll"
+            GameConfig.Graphics.ddexSelectedPlugin = "DDEX_DX8.dll"
         Case Else
-            ClientConfig.ddexSelectedPlugin = "DDEX_DX9.dll"
+            GameConfig.Graphics.ddexSelectedPlugin = "DDEX_DX9.dll"
     End Select
     
     
-    
-    Call mod_GameIni.SaveUserConfig
+    Call SaveGameConfig
 End Sub
 

@@ -52,8 +52,6 @@ Public Type tSetupMods
     ddexSelectedPlugin As String
 End Type
 
-Public ClientConfig As tSetupMods
-
 Public Const SW_SHOWNORMAL As Long = 1
 Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
@@ -69,22 +67,20 @@ End Function
 Public Sub LeerSetup()
 '*************************************************
 'Author: ^[GS]^
-'Last modified: 03/11/10
+'Last modified: 30/12/2017
 '11/19/09: Pato - Now is optional show the frmGuildNews form in the client
 '*************************************************
 On Error Resume Next
-    If Not FileExist(App.path & "\INIT\", vbDirectory) Then
-        Call MkDir(App.path & "\INIT\")
+
+    'Check if the old config file exists
+    If OldConfigExists() Then
+        ' Migrate the old config file to the new format
+        Call MigrateOldConfigFormat
+        'Remove the old file
+        Call RemoveOldConfigFile
     End If
     
-    Dim handle As Integer
-    handle = FreeFile
-    
-    Open App.path & "\Init\AO.dat" For Binary As handle
-        Get handle, , ClientConfig
-    Close handle
-    
-    If ClientConfig.bDinamic Then
+    If GameConfig.Graphics.bUseDynamicLoad Then
         frmAOSetup.chkDinamico.value = True
         frmAOSetup.lCuantoVideo.ForeColor = vbBlack
         frmAOSetup.pMemoria.EnabledSlider = True
@@ -98,31 +94,29 @@ On Error Resume Next
         frmAOSetup.pMemoria.picForeColor = &HC0C0C0
     End If
     
-    If ClientConfig.byMemory >= 4 And ClientConfig.byMemory <= 40 Then
-        frmAOSetup.pMemoria.value = ClientConfig.byMemory
+    If GameConfig.Graphics.MaxVideoMemory >= 4 And GameConfig.Graphics.MaxVideoMemory <= 40 Then
+        frmAOSetup.pMemoria.value = GameConfig.Graphics.MaxVideoMemory
     End If
     
-    frmAOSetup.chkPantallaCompleta.value = Not ClientConfig.bNoRes ' 24/06/2006 - ^[GS]^
+    frmAOSetup.chkPantallaCompleta.value = GameConfig.Graphics.bUseFullScreen ' 24/06/2006 - ^[GS]^
     
-    frmAOSetup.chkUserVideo = ClientConfig.bUseVideo
+    frmAOSetup.chkUserVideo = GameConfig.Graphics.bUseVideoMemory
     
-    frmAOSetup.chkMusica.value = Not ClientConfig.bNoMusic
+    frmAOSetup.chkMusica.value = GameConfig.Sounds.bMusicEnabled
     
-    frmAOSetup.chkSonido.value = Not ClientConfig.bNoSound
+    frmAOSetup.chkSonido.value = GameConfig.Sounds.bSoundsEnabled
     
-    frmAOSetup.chkEfectos.value = Not ClientConfig.bNoSoundEffects
+    frmAOSetup.chkEfectos.value = GameConfig.Sounds.bSoundEffectsEnabled
     
-    If ClientConfig.sGraficos <> vbNullString Then
-        If ClientConfig.sGraficos = "Graficos1.ind" Then
+    If GameConfig.Graphics.GraphicsIndToUse <> vbNullString Then
+        If GameConfig.Graphics.GraphicsIndToUse = "Graficos1.ind" Then
             frmAOSetup.optSmall.value = True
-        ElseIf ClientConfig.sGraficos = "Graficos2.ind" Then
+        ElseIf GameConfig.Graphics.GraphicsIndToUse = "Graficos2.ind" Then
             frmAOSetup.OptAverage.value = True
         End If
     End If
     
-    ClientConfig.bGuildNews = Not ClientConfig.bGuildNews
-    
-    If ClientConfig.bGuildNews Then
+    If GameConfig.Guilds.bShowGuildNews Then
         frmAOSetup.optMostrarNoticias.value = True
         frmAOSetup.optNoMostrar.value = False
     Else
@@ -130,10 +124,10 @@ On Error Resume Next
         frmAOSetup.optNoMostrar.value = True
     End If
     
-    If ClientConfig.bCantMsgs = 0 Then ClientConfig.bCantMsgs = 5
+    If GameConfig.Guilds.MaxMessageQuantity = 0 Then GameConfig.Guilds.MaxMessageQuantity = 5
 
-    frmAOSetup.optConsola.value = ClientConfig.bGldMsgConsole
-    frmAOSetup.txtCantMsgs.text = ClientConfig.bCantMsgs
+    frmAOSetup.optConsola.value = GameConfig.Guilds.bShowDialogsInConsole
+    frmAOSetup.txtCantMsgs.text = GameConfig.Guilds.MaxMessageQuantity
 End Sub
 
 Public Function LibraryExist(ByVal File As String, ByVal fileType As VbFileAttribute) As Boolean
@@ -181,6 +175,8 @@ On Error GoTo ErrHandler
     Dim path As String
     Dim oFile As Integer
     
+    Debug.Print (errStr)
+    
     path = App.path & "\Errores" & Year(Now) & Month(Now) & Day(Now) & ".log"
     oFile = FreeFile
     
@@ -188,6 +184,7 @@ On Error GoTo ErrHandler
         Print #oFile, Time & " - " & errStr
     Close #oFile
   
+    
   Exit Sub
   
 ErrHandler:
