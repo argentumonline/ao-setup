@@ -88,11 +88,11 @@ Private Const INIT_PATH As String = "\INIT\"
         Call LoadFragShooterConfig(iniMan)
         Call LoadGuildConfig(iniMan)
 
-        
-        ' Save the file, because we need it.
-        Call SaveGameConfig
-        
-                
+        If Not bFileExists Then
+            ' Save the file, because we need it.
+            Call SaveGameConfig
+        End If
+           
         Exit Sub
 ErrHandler:
   Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub LoadUserConfig de mod_GameIni.bas")

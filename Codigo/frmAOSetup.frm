@@ -731,7 +731,7 @@ Private Sub bAceptar_Click()
     ' Sounds
     GameConfig.Sounds.bSoundsEnabled = CBool(Me.chkSonido.Value)
     GameConfig.Sounds.bMusicEnabled = CBool(Me.chkMusica.Value)
-    GameConfig.Sounds.bSoundEffectsEnabled = Not CBool(Me.chkEfectos.Value)
+    GameConfig.Sounds.bSoundEffectsEnabled = CBool(Me.chkEfectos.Value)
     
     ' Graphics
     GameConfig.Graphics.bUseFullScreen = CBool(Me.chkPantallaCompleta.Value)
