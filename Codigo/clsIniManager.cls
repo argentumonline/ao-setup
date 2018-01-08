@@ -73,7 +73,7 @@ Option Base 0
 
 Private Type childNode
     key As String
-    value As String
+    Value As String
 End Type
 
 ''
@@ -136,13 +136,13 @@ Private Sub Class_Terminate()
 '**************************************************************
 On Error GoTo ErrHandler
   
-    Dim I As Long
+    Dim i As Long
     
     'Clean up
     If MainNodes Then
-        For I = 1 To MainNodes - 1
-            Erase fileData(I).values
-        Next I
+        For i = 1 To MainNodes - 1
+            Erase fileData(i).values
+        Next i
         
         Erase fileData
     End If
@@ -211,7 +211,7 @@ On Error GoTo ErrHandler
                             'Add it to the main node's value
                             ReDim Preserve .values(.numValues) As childNode
                             
-                            .values(.numValues).value = Right$(text, Len(text) - Pos)
+                            .values(.numValues).Value = Right$(text, Len(text) - Pos)
                             .values(.numValues).key = UCase$(Left$(text, Pos - 1))
                             
                             .numValues = .numValues + 1
@@ -224,17 +224,17 @@ On Error GoTo ErrHandler
     
     Close handle
     
-    Dim I As Long
+    Dim i As Long
     
     If MainNodes Then
         'Sort main nodes to allow binary search
         Call SortMainNodes(0, MainNodes - 1)
         
         'Sort values of each node to allow binary search
-        For I = 0 To MainNodes - 1
-            If fileData(I).numValues Then _
-                Call SortChildNodes(fileData(I), 0, fileData(I).numValues - 1)
-        Next I
+        For i = 0 To MainNodes - 1
+            If fileData(i).numValues Then _
+                Call SortChildNodes(fileData(i), 0, fileData(i).numValues - 1)
+        Next i
     End If
   
   Exit Sub
@@ -257,38 +257,38 @@ Private Sub SortChildNodes(ByRef Node As MainNode, ByVal First As Integer, ByVal
 'Sorts the list of values in a given MainNode using quicksort,
 'this allows the use of Binary Search for faster searches
 '**************************************************************
-    Dim min As Integer      'First item in the list
-    Dim max As Integer      'Last item in the list
+    Dim Min As Integer      'First item in the list
+    Dim Max As Integer      'Last item in the list
     Dim comp As String      'Item used to compare
 On Error GoTo ErrHandler
   
     Dim temp As childNode
     
-    min = First
-    max = Last
+    Min = First
+    Max = Last
     
     With Node
-        comp = .values((min + max) \ 2).key
+        comp = .values((Min + Max) \ 2).key
     
-        Do While min <= max
-            Do While .values(min).key < comp And min < Last
-                min = min + 1
+        Do While Min <= Max
+            Do While .values(Min).key < comp And Min < Last
+                Min = Min + 1
             Loop
-            Do While .values(max).key > comp And max > First
-                max = max - 1
+            Do While .values(Max).key > comp And Max > First
+                Max = Max - 1
             Loop
-            If min <= max Then
-                temp = .values(min)
-                .values(min) = .values(max)
-                .values(max) = temp
-                min = min + 1
-                max = max - 1
+            If Min <= Max Then
+                temp = .values(Min)
+                .values(Min) = .values(Max)
+                .values(Max) = temp
+                Min = Min + 1
+                Max = Max - 1
             End If
         Loop
     End With
     
-    If First < max Then SortChildNodes Node, First, max
-    If min < Last Then SortChildNodes Node, min, Last
+    If First < Max Then SortChildNodes Node, First, Max
+    If Min < Last Then SortChildNodes Node, Min, Last
   
   Exit Sub
   
@@ -309,36 +309,36 @@ Private Sub SortMainNodes(ByVal First As Integer, ByVal Last As Integer)
 'Sorts the MainNodes list using quicksort,
 'this allows the use of Binary Search for faster searches
 '**************************************************************
-    Dim min As Integer      'First item in the list
-    Dim max As Integer      'Last item in the list
+    Dim Min As Integer      'First item in the list
+    Dim Max As Integer      'Last item in the list
     Dim comp As String      'Item used to compare
 On Error GoTo ErrHandler
   
     Dim temp As MainNode
     
-    min = First
-    max = Last
+    Min = First
+    Max = Last
     
-    comp = fileData((min + max) \ 2).Name
+    comp = fileData((Min + Max) \ 2).Name
     
-    Do While min <= max
-        Do While fileData(min).Name < comp And min < Last
-            min = min + 1
+    Do While Min <= Max
+        Do While fileData(Min).Name < comp And Min < Last
+            Min = Min + 1
         Loop
-        Do While fileData(max).Name > comp And max > First
-            max = max - 1
+        Do While fileData(Max).Name > comp And Max > First
+            Max = Max - 1
         Loop
-        If min <= max Then
-            temp = fileData(min)
-            fileData(min) = fileData(max)
-            fileData(max) = temp
-            min = min + 1
-            max = max - 1
+        If Min <= Max Then
+            temp = fileData(Min)
+            fileData(Min) = fileData(Max)
+            fileData(Max) = temp
+            Min = Min + 1
+            Max = Max - 1
         End If
     Loop
     
-    If First < max Then SortMainNodes First, max
-    If min < Last Then SortMainNodes min, Last
+    If First < Max Then SortMainNodes First, Max
+    If Min < Last Then SortMainNodes Min, Last
   
   Exit Sub
   
@@ -361,18 +361,18 @@ Public Function GetValue(ByVal Main As String, ByVal key As String) As String
 '**************************************************************
 On Error GoTo ErrHandler
   
-    Dim I As Long
+    Dim i As Long
     Dim J As Long
     
     'Search for the main node
-    I = FindMain(UCase$(Main))
+    i = FindMain(UCase$(Main))
     
-    If I >= 0 Then
+    If i >= 0 Then
         'If valid, binary search among keys
-        J = FindKey(fileData(I), UCase$(key))
+        J = FindKey(fileData(i), UCase$(key))
         
         'If we found it we return it
-        If J >= 0 Then GetValue = fileData(I).values(J).value
+        If J >= 0 Then GetValue = fileData(i).values(J).Value
     End If
   
   Exit Function
@@ -388,7 +388,7 @@ End Function
 ' @param    key The key of the value we are looking for.
 ' @returns  The value asociated with the given key under the requeted main section of the INI file or a null string if it's not found.
 
-Public Sub ChangeValue(ByVal Main As String, ByVal key As String, ByVal value As String)
+Public Sub ChangeValue(ByVal Main As String, ByVal key As String, ByVal Value As String)
 '**************************************************************
 'Author: ZaMa
 'Last Modify Date: 27/05/2009
@@ -396,22 +396,22 @@ Public Sub ChangeValue(ByVal Main As String, ByVal key As String, ByVal value As
 '**************************************************************
 On Error GoTo ErrHandler
   
-    Dim I As Long
+    Dim i As Long
     Dim J As Long
     
     'Search for the main node
-    I = FindMain(UCase$(Main))
+    i = FindMain(UCase$(Main))
     
-    If I < 0 Then I = AddNode(Main)
+    If i < 0 Then i = AddNode(Main)
     
     'If valid, binary search among keys
-    J = FindKey(fileData(I), UCase$(key))
+    J = FindKey(fileData(i), UCase$(key))
     
     If J < 0 Then
-        Call AddKey(Main, key, value)
+        Call AddKey(Main, key, Value)
     Else
         'If we found it we change it
-        fileData(I).values(J).value = value
+        fileData(i).values(J).Value = Value
     End If
   
   Exit Sub
@@ -436,20 +436,20 @@ Private Function FindKey(ByRef Node As MainNode, ByVal key As String) As Long
 '**************************************************************
 On Error GoTo ErrHandler
   
-    Dim min As Long
-    Dim max As Long
+    Dim Min As Long
+    Dim Max As Long
     Dim mid As Long
     
-    min = 0
-    max = Node.numValues - 1
+    Min = 0
+    Max = Node.numValues - 1
     
-    Do While min <= max
-        mid = (min + max) \ 2
+    Do While Min <= Max
+        mid = (Min + Max) \ 2
         
         If Node.values(mid).key < key Then
-            min = mid + 1
+            Min = mid + 1
         ElseIf Node.values(mid).key > key Then
-            max = mid - 1
+            Max = mid - 1
         Else
             'We found it
             FindKey = mid
@@ -459,7 +459,7 @@ On Error GoTo ErrHandler
     
     'Not found, return the negation of the position where it should be
     '(all higher values are to the right of the list and lower values are to the left)
-    FindKey = Not min
+    FindKey = Not Min
   
   Exit Function
   
@@ -482,20 +482,20 @@ Private Function FindMain(ByVal Name As String) As Long
 '**************************************************************
 On Error GoTo ErrHandler
   
-    Dim min As Long
-    Dim max As Long
+    Dim Min As Long
+    Dim Max As Long
     Dim mid As Long
     
-    min = 0
-    max = MainNodes - 1
+    Min = 0
+    Max = MainNodes - 1
     
-    Do While min <= max
-        mid = (min + max) \ 2
+    Do While Min <= Max
+        mid = (Min + Max) \ 2
         
         If fileData(mid).Name < Name Then
-            min = mid + 1
+            Min = mid + 1
         ElseIf fileData(mid).Name > Name Then
-            max = mid - 1
+            Max = mid - 1
         Else
             'We found it
             FindMain = mid
@@ -505,7 +505,7 @@ On Error GoTo ErrHandler
     
     'Not found, return the negation of the position where it should be
     '(all higher values are to the right of the list and lower values are to the left)
-    FindMain = Not min
+    FindMain = Not Min
   
   Exit Function
   
@@ -543,7 +543,7 @@ Private Function AddNode(ByRef Name As String) As Long
 '**************************************************************
 On Error GoTo ErrHandler
   
-Dim I As Long
+Dim i As Long
 Dim MainPos As Long
 
 Name = UCase$(Name)
@@ -552,12 +552,12 @@ Name = UCase$(Name)
 ReDim Preserve fileData(MainNodes) As MainNode
 
 If MainNodes Then
-    I = MainNodes - 1
+    i = MainNodes - 1
     MainPos = Not FindMain(Name)
     
-    Do While I >= MainPos
-        fileData(I + 1) = fileData(I)
-        I = I - 1
+    Do While i >= MainPos
+        fileData(i + 1) = fileData(i)
+        i = i - 1
     Loop
     
     fileData(MainPos).numValues = 0
@@ -576,7 +576,7 @@ ErrHandler:
   Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Function AddNode de clsIniManager.cls")
 End Function
 
-Private Function AddKey(ByRef Main As String, ByRef key As String, Optional ByRef value As String = vbNullString) As Long
+Private Function AddKey(ByRef Main As String, ByRef key As String, Optional ByRef Value As String = vbNullString) As Long
 '**************************************************************
 'Author: Torres Patricio (Pato)
 'Last Modify Date: 10/10/2010
@@ -586,7 +586,7 @@ On Error GoTo ErrHandler
   
 Dim MainPos As Long
 Dim KeyPos As Long
-Dim I As Long
+Dim i As Long
 
 Main = UCase$(Main)
 key = UCase$(key)
@@ -600,17 +600,17 @@ With fileData(MainPos)
     ReDim Preserve .values(.numValues) As childNode
     
     If .numValues > 0 Then
-        I = .numValues - 1
+        i = .numValues - 1
         KeyPos = Not FindKey(fileData(MainPos), key)
         
-        Do While I >= KeyPos
-            .values(I + 1) = .values(I)
-            I = I - 1
+        Do While i >= KeyPos
+            .values(i + 1) = .values(i)
+            i = i - 1
         Loop
     End If
     
     .values(KeyPos).key = key
-    .values(KeyPos).value = value
+    .values(KeyPos).Value = Value
     
     .numValues = .numValues + 1
 End With
@@ -647,24 +647,24 @@ Public Sub DumpFile(ByRef File As String)
 On Error GoTo ErrHandler
   
 Dim hFile As Integer
-Dim I As Long
+Dim i As Long
 Dim J As Long
 
 hFile = FreeFile()
 
 Open File For Output As hFile
 
-    For I = 0 To MainNodes - 1
-        With fileData(I)
+    For i = 0 To MainNodes - 1
+        With fileData(i)
             Print #hFile, "[" & .Name & "]"
             
             For J = 0 To .numValues - 1
-                Print #hFile, .values(J).key & "=" & .values(J).value
+                Print #hFile, .values(J).key & "=" & .values(J).Value
             Next J
             
             Print #hFile, ""
         End With
-    Next I
+    Next i
     
 Close hFile
   

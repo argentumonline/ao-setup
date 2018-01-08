@@ -1,4 +1,4 @@
-frmAOSetup = 687, 94, 1348, 853, Z, 711, 120, 1292, 738, C
+frmAOSetup = 264, 147, 925, 835, , 113, 104, 694, 722, C
 chameleonButton = 78, 78, 1156, 592, C, 104, 104, 864, 636, C
 PBarY = 0, 0, 0, 0, C, 130, 130, 890, 662, C
 mod_DirectX = 78, 78, 1070, 738, 
@@ -15,4 +15,4 @@ DownloadFormSimple = 26, 26, 1216, 522, C, 26, 26, 786, 558, C
 frmLibrerias = 0, 0, 0, 0, C, 52, 52, 812, 584, C
 mod_GameIni = 104, 104, 666, 540, 
 clsIniManager = 0, 0, 562, 436, 
-mod_Configuration = 218, 188, 1218, 848, 
+mod_Configuration = 218, 188, 1218, 848, Z
