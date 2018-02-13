@@ -188,7 +188,7 @@ ErrHandler:
         Call iniMan.ChangeValue("GraphicsEngine", "VertexMode", GameConfig.Graphics.ddexConfig.MODO2)
         Call iniMan.ChangeValue("GraphicsEngine", "SelectedPlugin", GameConfig.Graphics.ddexSelectedPlugin)
         Call iniMan.ChangeValue("GraphicsEngine", "UseDynamicLoad", BooleanToNumber(GameConfig.Graphics.bUseDynamicLoad))
-        Call iniMan.ChangeValue("GraphicsEngine", "UseVideoMemory", BooleanToNumber(GameConfig.Graphics.bUseDynamicLoad))
+        Call iniMan.ChangeValue("GraphicsEngine", "UseVideoMemory", BooleanToNumber(GameConfig.Graphics.bUseVideoMemory))
         Call iniMan.ChangeValue("GraphicsEngine", "MaxVideoMemory", GameConfig.Graphics.MaxVideoMemory)
         
         Call iniMan.ChangeValue("GraphicsEngine", "UseFullScreen", BooleanToNumber(GameConfig.Graphics.bUseFullScreen))
