@@ -75,26 +75,27 @@ Select Case strValue
         GetVersion = "7.0a"
     Case "4.08.00.0400"
         GetVersion = "8.0"
-    Case "4.08.01.0881"
-        GetVersion = "8.1"
     Case "4.08.01.0810"
         GetVersion = "8.1"
-    Case "4.09.0000.0900"
-        GetVersion = "9.0"
+    Case "4.08.01.0881"
+        GetVersion = "8.1"
     Case "4.09.00.0900"
         GetVersion = "9.0"
-    Case "4.09.0000.0901"
-        GetVersion = "9.0a"
+    Case "4.09.0000.0900"
+        GetVersion = "9.0"
     Case "4.09.00.0901"
         GetVersion = "9.0a"
-    Case "4.09.0000.0902"
-        GetVersion = "9.0b"
+    Case "4.09.0000.0901"
+        GetVersion = "9.0a"
     Case "4.09.00.0902"
+        GetVersion = "9.0b"
+    Case "4.09.0000.0902"
         GetVersion = "9.0b"
     Case "4.09.00.0904"
         GetVersion = "9.0c"
     Case "4.09.0000.0904"
         GetVersion = "9.0c"
+
     Case Else
         GetVersion = "No se pudo detectar la versión."
 End Select
@@ -193,20 +194,6 @@ Public Sub ProbarDirectX()
     frmAOSetup.Text3.BackColor = frmAOSetup.lblDS.ForeColor
     DoEvents
     
-    'Create DirectDraw
-    If IniciarDDobject(DirectDraw) Then
-        frmAOSetup.lblDD.Visible = True
-        frmAOSetup.lblDD.Caption = "OK"
-        frmAOSetup.lblDD.ForeColor = &H8000&
-        frmAOSetup.lblDD.Font.Bold = True
-    Else
-        frmAOSetup.lblDD.Visible = True
-        frmAOSetup.lblDD.Caption = "ERROR"
-        frmAOSetup.lblDD.ForeColor = RGB(255, 0, 0)
-        frmAOSetup.lblDD.Font.Bold = True
-        error = True
-    End If
-    frmAOSetup.Text2.BackColor = frmAOSetup.lblDD.ForeColor
     DoEvents
     
     If error Then
@@ -246,21 +233,4 @@ On Error Resume Next
     End If
     
     IniciarDXobject = True
-End Function
-
-Private Function IniciarDDobject(ByRef DD As DirectDraw7) As Boolean
-'*************************************************
-'Author: Ivan Leoni y Fernando Costa
-'Last modified: ?/?/?
-'*************************************************
-On Error Resume Next
-    Set DD = directx.DirectDrawCreate("")
-    
-    If Err Then
-        Err.Clear
-        IniciarDDobject = False
-        Exit Function
-    End If
-    
-    IniciarDDobject = True
 End Function

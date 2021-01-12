@@ -75,58 +75,43 @@ On Error Resume Next
     'Check if the old config file exists
     If OldConfigExists() Then
         ' Migrate the old config file to the new format
-        Call MigrateOldConfigFormat
+        'Call MigrateOldConfigFormat
         'Remove the old file
-        Call RemoveOldConfigFile
+       ' Call RemoveOldConfigFile
     End If
+
     
-    If GameConfig.Graphics.bUseDynamicLoad Then
-        frmAOSetup.chkDinamico.value = True
-        frmAOSetup.lCuantoVideo.ForeColor = vbBlack
-        frmAOSetup.pMemoria.EnabledSlider = True
-        frmAOSetup.pMemoria.picFillColor = &H8080FF
-        frmAOSetup.pMemoria.picForeColor = &H80FF80
-    Else
-        frmAOSetup.chkDinamico.value = False
-        frmAOSetup.lCuantoVideo.ForeColor = &H808080
-        frmAOSetup.pMemoria.EnabledSlider = False
-        frmAOSetup.pMemoria.picFillColor = &H808080
-        frmAOSetup.pMemoria.picForeColor = &HC0C0C0
-    End If
+    frmAOSetup.chkPantallaCompleta.Value = GameConfig.Graphics.bUseFullScreen ' 24/06/2006 - ^[GS]^
+        
+    frmAOSetup.chkCompatible.Value = GameConfig.Graphics.bUseCompatibleMode
     
-    If GameConfig.Graphics.MaxVideoMemory >= 4 And GameConfig.Graphics.MaxVideoMemory <= 40 Then
-        frmAOSetup.pMemoria.value = GameConfig.Graphics.MaxVideoMemory
-    End If
+    frmAOSetup.chkVSync.Value = GameConfig.Graphics.bUseVerticalSync
     
-    frmAOSetup.chkPantallaCompleta.value = GameConfig.Graphics.bUseFullScreen ' 24/06/2006 - ^[GS]^
+    frmAOSetup.chkMusica.Value = GameConfig.Sounds.bMusicEnabled
     
-    frmAOSetup.chkUserVideo = GameConfig.Graphics.bUseVideoMemory
+    frmAOSetup.chkSonido.Value = GameConfig.Sounds.bSoundsEnabled
     
-    frmAOSetup.chkMusica.value = GameConfig.Sounds.bMusicEnabled
-    
-    frmAOSetup.chkSonido.value = GameConfig.Sounds.bSoundsEnabled
-    
-    frmAOSetup.chkEfectos.value = GameConfig.Sounds.bSoundEffectsEnabled
+    frmAOSetup.chkEfectos.Value = GameConfig.Sounds.bSoundEffectsEnabled
     
     If GameConfig.Graphics.GraphicsIndToUse <> vbNullString Then
         If GameConfig.Graphics.GraphicsIndToUse = "Graficos1.ind" Then
-            frmAOSetup.optSmall.value = True
+            frmAOSetup.optSmall.Value = True
         ElseIf GameConfig.Graphics.GraphicsIndToUse = "Graficos2.ind" Then
-            frmAOSetup.OptAverage.value = True
+            frmAOSetup.OptAverage.Value = True
         End If
     End If
     
     If GameConfig.Guilds.bShowGuildNews Then
-        frmAOSetup.optMostrarNoticias.value = True
-        frmAOSetup.optNoMostrar.value = False
+        frmAOSetup.optMostrarNoticias.Value = True
+        frmAOSetup.optNoMostrar.Value = False
     Else
-        frmAOSetup.optMostrarNoticias.value = False
-        frmAOSetup.optNoMostrar.value = True
+        frmAOSetup.optMostrarNoticias.Value = False
+        frmAOSetup.optNoMostrar.Value = True
     End If
     
     If GameConfig.Guilds.MaxMessageQuantity = 0 Then GameConfig.Guilds.MaxMessageQuantity = 5
 
-    frmAOSetup.optConsola.value = GameConfig.Guilds.bShowDialogsInConsole
+    frmAOSetup.optConsola.Value = GameConfig.Guilds.bShowDialogsInConsole
     frmAOSetup.txtCantMsgs.text = GameConfig.Guilds.MaxMessageQuantity
 End Sub
 
