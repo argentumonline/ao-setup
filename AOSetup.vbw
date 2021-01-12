@@ -1,11 +1,10 @@
 frmAOSetup = 264, 147, 925, 835, , 113, 104, 694, 722, C
 chameleonButton = 78, 78, 1156, 592, C, 104, 104, 864, 636, C
-PBarY = 0, 0, 0, 0, C, 130, 130, 890, 662, C
 mod_DirectX = 78, 78, 1070, 738, 
 mod_General = 552, 0, 1742, 530, 
+DownloadForm = 0, 0, 0, 0, C, 78, 78, 1125, 563, C
 mod_MD5 = 182, 182, 1182, 842, 
 frmAbout = 52, 52, 1099, 537, , 0, 0, 760, 532, C
 frmLibrerias = 234, 234, 1281, 719, Z, 52, 52, 812, 584, C
-mod_GameIni = 104, 104, 666, 540, 
 clsIniManager = 0, 0, 562, 436, 
 mod_Configuration = 218, 188, 1218, 848, 
