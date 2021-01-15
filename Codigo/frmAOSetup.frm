@@ -2,37 +2,37 @@ VERSION 5.00
 Begin VB.Form frmAOSetup 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Argentum Online Setup"
-   ClientHeight    =   7530
+   ClientHeight    =   6990
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   6870
    Icon            =   "frmAOSetup.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
-   ScaleHeight     =   7530
+   ScaleHeight     =   6990
    ScaleWidth      =   6870
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame7 
       Caption         =   "Diálogos de clan"
       Height          =   735
       Left            =   4200
-      TabIndex        =   30
-      Top             =   5760
+      TabIndex        =   26
+      Top             =   5040
       Width           =   2535
       Begin VB.TextBox txtCantMsgs 
          Height          =   285
          Left            =   1320
          MaxLength       =   1
-         TabIndex        =   33
+         TabIndex        =   29
          Text            =   "5"
          Top             =   400
          Width           =   375
       End
       Begin VB.OptionButton optPantalla 
-         Caption         =   "En pantalla,"
+         Caption         =   "En pantalla"
          Height          =   255
          Left            =   120
-         TabIndex        =   32
+         TabIndex        =   28
          Top             =   450
          Value           =   -1  'True
          Width           =   1215
@@ -41,15 +41,15 @@ Begin VB.Form frmAOSetup
          Caption         =   "En consola"
          Height          =   195
          Left            =   120
-         TabIndex        =   31
-         Top             =   200
+         TabIndex        =   27
+         Top             =   240
          Width           =   1335
       End
       Begin VB.Label Label1 
          Caption         =   "mensajes"
          Height          =   195
          Left            =   1750
-         TabIndex        =   34
+         TabIndex        =   30
          Top             =   480
          Width           =   735
       End
@@ -58,14 +58,14 @@ Begin VB.Form frmAOSetup
       Caption         =   "Noticias del clan"
       Height          =   735
       Left            =   120
-      TabIndex        =   27
-      Top             =   5760
+      TabIndex        =   23
+      Top             =   5040
       Width           =   3975
       Begin VB.OptionButton optNoMostrar 
          Caption         =   "No mostrarlas"
          Height          =   255
          Left            =   2640
-         TabIndex        =   29
+         TabIndex        =   25
          Top             =   315
          Width           =   1275
       End
@@ -73,43 +73,10 @@ Begin VB.Form frmAOSetup
          Caption         =   "Mostrar noticias al conectarse"
          Height          =   255
          Left            =   120
-         TabIndex        =   28
+         TabIndex        =   24
          Top             =   315
          Value           =   -1  'True
          Width           =   2415
-      End
-   End
-   Begin VB.Frame Frame5 
-      Caption         =   "Tipo de Arboles"
-      Height          =   615
-      Left            =   120
-      TabIndex        =   23
-      Top             =   5040
-      Width           =   6615
-      Begin VB.OptionButton optBig 
-         Caption         =   "Grandes"
-         Height          =   255
-         Left            =   5400
-         TabIndex        =   26
-         Top             =   240
-         Value           =   -1  'True
-         Width           =   1095
-      End
-      Begin VB.OptionButton OptAverage 
-         Caption         =   "Medianos"
-         Height          =   255
-         Left            =   2760
-         TabIndex        =   25
-         Top             =   240
-         Width           =   1095
-      End
-      Begin VB.OptionButton optSmall 
-         Caption         =   "Pequeños"
-         Height          =   255
-         Left            =   120
-         TabIndex        =   24
-         Top             =   240
-         Width           =   1095
       End
    End
    Begin VB.Frame Frame3 
@@ -279,18 +246,18 @@ Begin VB.Form frmAOSetup
       Caption         =   "Ejecutar el juego al Aceptar"
       ForeColor       =   &H80000008&
       Height          =   255
-      Left            =   2040
+      Left            =   2280
       TabIndex        =   1
-      Top             =   7200
+      Top             =   6550
       Value           =   1  'Checked
       Width           =   2295
    End
    Begin VB.Frame Frame2 
       Caption         =   "Opciones de Sonido"
-      Height          =   1350
+      Height          =   1575
       Left            =   120
       TabIndex        =   2
-      Top             =   3600
+      Top             =   3360
       Width           =   2415
       Begin VB.CheckBox chkEfectos 
          Appearance      =   0  'Flat
@@ -298,9 +265,9 @@ Begin VB.Form frmAOSetup
          Caption         =   "&Efectos de sonido"
          ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   360
+         Left            =   120
          TabIndex        =   22
-         Top             =   810
+         Top             =   1080
          Value           =   1  'Checked
          Width           =   1695
       End
@@ -310,9 +277,9 @@ Begin VB.Form frmAOSetup
          Caption         =   "&Música Activada"
          ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   360
+         Left            =   120
          TabIndex        =   18
-         Top             =   525
+         Top             =   720
          Value           =   1  'Checked
          Width           =   1695
       End
@@ -322,16 +289,16 @@ Begin VB.Form frmAOSetup
          Caption         =   "&Sonido Activado"
          ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   360
+         Left            =   120
          TabIndex        =   17
-         Top             =   240
+         Top             =   360
          Value           =   1  'Checked
          Width           =   1695
       End
    End
    Begin VB.Frame Frame1 
       Caption         =   "Opciones de Video"
-      Height          =   1815
+      Height          =   1575
       Left            =   120
       TabIndex        =   0
       Top             =   1680
@@ -342,7 +309,7 @@ Begin VB.Form frmAOSetup
          Caption         =   "Pantalla Completa"
          ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   360
+         Left            =   120
          TabIndex        =   21
          Top             =   360
          Value           =   1  'Checked
@@ -354,9 +321,9 @@ Begin VB.Form frmAOSetup
          Caption         =   "Compatibilidad"
          ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   360
+         Left            =   120
          TabIndex        =   19
-         Top             =   680
+         Top             =   720
          Value           =   1  'Checked
          Width           =   1575
       End
@@ -366,9 +333,9 @@ Begin VB.Form frmAOSetup
          Caption         =   "VSync"
          ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   360
+         Left            =   120
          TabIndex        =   16
-         Top             =   970
+         Top             =   1080
          Value           =   1  'Checked
          Width           =   1455
       End
@@ -378,7 +345,7 @@ Begin VB.Form frmAOSetup
       Height          =   375
       Left            =   4920
       TabIndex        =   3
-      Top             =   7080
+      Top             =   6480
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -416,7 +383,7 @@ Begin VB.Form frmAOSetup
       Height          =   375
       Left            =   120
       TabIndex        =   4
-      Top             =   7080
+      Top             =   6480
       Width           =   1815
       _ExtentX        =   3201
       _ExtentY        =   661
@@ -452,9 +419,9 @@ Begin VB.Form frmAOSetup
    End
    Begin AOSetup.chameleonButton cLibrerias 
       Height          =   375
-      Left            =   105
+      Left            =   120
       TabIndex        =   15
-      Top             =   6540
+      Top             =   5880
       Width           =   6615
       _ExtentX        =   11668
       _ExtentY        =   661
@@ -527,19 +494,12 @@ Begin VB.Form frmAOSetup
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
-   Begin VB.Line Line2 
-      BorderColor     =   &H00FFFFFF&
-      X1              =   120
-      X2              =   6720
-      Y1              =   6975
-      Y2              =   6975
-   End
    Begin VB.Line Line1 
       BorderColor     =   &H00808080&
       X1              =   120
       X2              =   6720
-      Y1              =   6960
-      Y2              =   6960
+      Y1              =   6360
+      Y2              =   6360
    End
    Begin VB.Image Image1 
       BorderStyle     =   1  'Fixed Single
@@ -614,17 +574,7 @@ Private Sub bAceptar_Click()
     GameConfig.Graphics.bUseFullScreen = CBool(Me.chkPantallaCompleta.Value)
     GameConfig.Graphics.bUseVerticalSync = CBool(Me.chkVSync.Value)
     GameConfig.Graphics.bUseCompatibleMode = CBool(Me.chkCompatible.Value)
-   
-    If optBig.Value Then
-        sFile = "Graficos3.ind"
-    ElseIf OptAverage.Value Then
-        sFile = "Graficos2.ind"
-    Else
-        sFile = "Graficos1.ind"
-    End If
-    
-    GameConfig.Graphics.GraphicsIndToUse = sFile
-    
+
     GameConfig.Guilds.MaxMessageQuantity = Val(txtCantMsgs.text)
     
     DoEvents

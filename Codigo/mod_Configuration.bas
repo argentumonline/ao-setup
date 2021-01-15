@@ -14,7 +14,6 @@ Private Const INIT_PATH As String = "\INIT\"
     Public Type tGraphicsConfig
         Ambience As tGraphicsAmbienceConfig
         
-        GraphicsIndToUse As String * 13 'sGraficos
         bUseFullScreen As Boolean '!bNoRes
         bUseVerticalSync As Boolean
         bUseCompatibleMode As Boolean
@@ -133,8 +132,7 @@ ErrHandler:
         GameConfig.Graphics.bUseFullScreen = iniMan.GetValueBoolean("GraphicsEngine", "UseFullScreen", False)
         GameConfig.Graphics.bUseVerticalSync = iniMan.GetValueBoolean("GraphicsEngine", "UseVerticalSync", False)
         GameConfig.Graphics.bUseCompatibleMode = iniMan.GetValueBoolean("GraphicsEngine", "UseCompatibleMode", False)
-        GameConfig.Graphics.GraphicsIndToUse = iniMan.GetValueString("GraphicsEngine", "GraphicsIndToUse", "Graficos1.ind")
-        
+ 
         GameConfig.Graphics.Ambience.bAmbientLightsEnabled = iniMan.GetValueBoolean("GraphicsEngine", "EnableAmbientLights", True)
         GameConfig.Graphics.Ambience.bLightsEnabled = iniMan.GetValueBoolean("GraphicsEngine", "EnableLights", True)
         GameConfig.Graphics.Ambience.bUseRainWithParticles = iniMan.GetValueBoolean("GraphicsEngine", "UseRainWithParticles", False)
@@ -150,8 +148,7 @@ ErrHandler:
         Call iniMan.ChangeValue("GraphicsEngine", "UseFullScreen", BooleanToNumber(GameConfig.Graphics.bUseFullScreen))
         Call iniMan.ChangeValue("GraphicsEngine", "UseVerticalSync", BooleanToNumber(GameConfig.Graphics.bUseVerticalSync))
         Call iniMan.ChangeValue("GraphicsEngine", "UseCompatibleMode", BooleanToNumber(GameConfig.Graphics.bUseCompatibleMode))
-        Call iniMan.ChangeValue("GraphicsEngine", "GraphicsIndToUse", GameConfig.Graphics.GraphicsIndToUse)
-        
+
         Call iniMan.ChangeValue("GraphicsEngine", "EnableAmbientLights", BooleanToNumber(GameConfig.Graphics.Ambience.bAmbientLightsEnabled))
         Call iniMan.ChangeValue("GraphicsEngine", "EnableLights", BooleanToNumber(GameConfig.Graphics.Ambience.bLightsEnabled))
         Call iniMan.ChangeValue("GraphicsEngine", "UseRainWithParticles", BooleanToNumber(GameConfig.Graphics.Ambience.bUseRainWithParticles))
@@ -202,7 +199,7 @@ ErrHandler:
     End Sub
    
     
-    Private Function BooleanToNumber(ByVal boolValue As Boolean) As Byte
+    Public Function BooleanToNumber(ByVal boolValue As Boolean) As Byte
         BooleanToNumber = IIf(boolValue = True, 1, 0)
     End Function
     
@@ -240,79 +237,3 @@ ErrHandler:
         
     End Sub
 
-
-Public Function OldConfigExists() As Boolean
-    OldConfigExists = FileExist(App.path & "\Init\AO.dat", vbNormal)
-End Function
-
-Public Sub RemoveOldConfigFile()
-On Error GoTo ErrHandler:
-
-    Call Kill(App.path & "\Init\AO.dat")
-    Exit Sub
-    
-ErrHandler:
-    Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub RemoveOldConfigFile de mod_GameIni.bas")
-End Sub
-
-Public Function LoadOldConfigFile() As tSetupMods
-On Error GoTo ErrHandler:
-
-    
-    ' Check if the INIT folder exists
-    If Not FileExist(App.path & "\INIT\", vbDirectory) Then
-        Call MkDir(App.path & "\INIT\")
-    End If
-    
-    Dim handle As Integer
-    handle = FreeFile
-    
-    ' Get a reference to the file and load the content in a binary way.
-    Open App.path & "\Init\AO.dat" For Binary As handle
-        Get handle, , LoadOldConfigFile
-    Close handle
-    
-    Exit Function
-ErrHandler:
-  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub LoadOldConfigFile de mod_GameIni.bas")
-    
-End Function
-
-Public Sub MigrateOldConfigFormat()
-    On Error GoTo ErrHandler:
-                
-    'Dim oldConfig As tSetupMods
-    'oldConfig = LoadOldConfigFile()
-    
-    ' Load the new config file so we can get the default values for all the properties
-    ' that are not included in the old file
-    'Call LoadGameConfig
-    
-    ' Extras
-    'GameConfig.Extras.bAskForResolutionChange = oldConfig.bNoRes
-    'GameConfig.Extras.bRightClickEnabled = Not oldConfig.bRightClick
-    
-    ' Sound
-    'GameConfig.Sounds.bMusicEnabled = Not oldConfig.bNoMusic
-    'GameConfig.Sounds.bSoundsEnabled = Not oldConfig.bNoMusic
-    'GameConfig.Sounds.bSoundEffectsEnabled = Not oldConfig.bNoSound
-    
-    ' Graphics
-    'GameConfig.Graphics.bUseDynamicLoad = oldConfig.bDinamic
-    'GameConfig.Graphics.bUseVideoMemory = oldConfig.bUseVideo
-    'GameConfig.Graphics.MaxVideoMemory = oldConfig.byMemory
-    'GameConfig.Graphics.ddexSelectedPlugin = oldConfig.ddexSelectedPlugin
-    'GameConfig.Graphics.GraphicsIndToUse = oldConfig.sGraficos
-    
-    ' Guilds
-    'GameConfig.Guilds.bShowDialogsInConsole = oldConfig.bGldMsgConsole
-    'GameConfig.Guilds.bShowGuildNews = oldConfig.bGuildNews
-    'GameConfig.Guilds.MaxMessageQuantity = oldConfig.bCantMsgs
-    
-
-    'Call SaveGameConfig
-    
-    Exit Sub
-ErrHandler:
-  Call LogError("Error" & Err.Number & "(" & Err.Description & ") en Sub MigrateOldConfigFormat de mod_GameIni.bas")
-End Sub

@@ -129,29 +129,37 @@ Begin VB.Form frmLibrerias
       TabIndex        =   1
       Top             =   3600
       Width           =   3255
-      _extentx        =   5741
-      _extenty        =   661
-      btype           =   3
-      tx              =   "&Aceptar"
-      enab            =   -1  'True
-      font            =   "frmLibrerias.frx":0442
-      coltype         =   1
-      focusr          =   -1  'True
-      bcol            =   12648384
-      bcolo           =   12648384
-      fcol            =   0
-      fcolo           =   0
-      mcol            =   12632256
-      mptr            =   1
-      micon           =   "frmLibrerias.frx":046E
-      umcol           =   -1  'True
-      soft            =   0   'False
-      picpos          =   0
-      ngrey           =   0   'False
-      fx              =   0
-      hand            =   0   'False
-      check           =   0   'False
-      value           =   0   'False
+      _ExtentX        =   5741
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Aceptar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12648384
+      BCOLO           =   12648384
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmLibrerias.frx":0442
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
    Begin AOSetup.chameleonButton cSolucion 
       Height          =   375
@@ -161,29 +169,37 @@ Begin VB.Form frmLibrerias
       Top             =   360
       Visible         =   0   'False
       Width           =   1095
-      _extentx        =   1931
-      _extenty        =   661
-      btype           =   3
-      tx              =   ""
-      enab            =   -1  'True
-      font            =   "frmLibrerias.frx":048C
-      coltype         =   1
-      focusr          =   -1  'True
-      bcol            =   12648384
-      bcolo           =   12648384
-      fcol            =   0
-      fcolo           =   0
-      mcol            =   12632256
-      mptr            =   1
-      micon           =   "frmLibrerias.frx":04B8
-      umcol           =   -1  'True
-      soft            =   0   'False
-      picpos          =   0
-      ngrey           =   0   'False
-      fx              =   0
-      hand            =   0   'False
-      check           =   0   'False
-      value           =   0   'False
+      _ExtentX        =   1931
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   ""
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12648384
+      BCOLO           =   12648384
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmLibrerias.frx":045E
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
    Begin AOSetup.chameleonButton cVerificar 
       Height          =   375
@@ -191,29 +207,37 @@ Begin VB.Form frmLibrerias
       TabIndex        =   7
       Top             =   2400
       Width           =   3255
-      _extentx        =   5741
-      _extenty        =   661
-      btype           =   3
-      tx              =   "&Verificar nuevamente"
-      enab            =   -1  'True
-      font            =   "frmLibrerias.frx":04D6
-      coltype         =   1
-      focusr          =   -1  'True
-      bcol            =   12648384
-      bcolo           =   12648384
-      fcol            =   0
-      fcolo           =   0
-      mcol            =   12632256
-      mptr            =   1
-      micon           =   "frmLibrerias.frx":0502
-      umcol           =   -1  'True
-      soft            =   0   'False
-      picpos          =   0
-      ngrey           =   0   'False
-      fx              =   0
-      hand            =   0   'False
-      check           =   0   'False
-      value           =   0   'False
+      _ExtentX        =   5741
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Verificar nuevamente"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12648384
+      BCOLO           =   12648384
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmLibrerias.frx":047A
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
    Begin AOSetup.chameleonButton cSolucion 
       Height          =   375
@@ -223,29 +247,37 @@ Begin VB.Form frmLibrerias
       Top             =   720
       Visible         =   0   'False
       Width           =   1095
-      _extentx        =   1931
-      _extenty        =   661
-      btype           =   3
-      tx              =   ""
-      enab            =   -1  'True
-      font            =   "frmLibrerias.frx":0520
-      coltype         =   1
-      focusr          =   -1  'True
-      bcol            =   12648384
-      bcolo           =   12648384
-      fcol            =   0
-      fcolo           =   0
-      mcol            =   12632256
-      mptr            =   1
-      micon           =   "frmLibrerias.frx":054C
-      umcol           =   -1  'True
-      soft            =   0   'False
-      picpos          =   0
-      ngrey           =   0   'False
-      fx              =   0
-      hand            =   0   'False
-      check           =   0   'False
-      value           =   0   'False
+      _ExtentX        =   1931
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   ""
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12648384
+      BCOLO           =   12648384
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmLibrerias.frx":0496
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
    Begin AOSetup.chameleonButton cSolucion 
       Height          =   375
@@ -255,29 +287,37 @@ Begin VB.Form frmLibrerias
       Top             =   1080
       Visible         =   0   'False
       Width           =   1095
-      _extentx        =   1931
-      _extenty        =   661
-      btype           =   3
-      tx              =   ""
-      enab            =   -1  'True
-      font            =   "frmLibrerias.frx":056A
-      coltype         =   1
-      focusr          =   -1  'True
-      bcol            =   12648384
-      bcolo           =   12648384
-      fcol            =   0
-      fcolo           =   0
-      mcol            =   12632256
-      mptr            =   1
-      micon           =   "frmLibrerias.frx":0596
-      umcol           =   -1  'True
-      soft            =   0   'False
-      picpos          =   0
-      ngrey           =   0   'False
-      fx              =   0
-      hand            =   0   'False
-      check           =   0   'False
-      value           =   0   'False
+      _ExtentX        =   1931
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   ""
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12648384
+      BCOLO           =   12648384
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmLibrerias.frx":04B2
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
    Begin AOSetup.chameleonButton cSolucion 
       Height          =   375
@@ -287,29 +327,37 @@ Begin VB.Form frmLibrerias
       Top             =   0
       Visible         =   0   'False
       Width           =   1095
-      _extentx        =   1931
-      _extenty        =   661
-      btype           =   3
-      tx              =   ""
-      enab            =   -1  'True
-      font            =   "frmLibrerias.frx":05B4
-      coltype         =   1
-      focusr          =   -1  'True
-      bcol            =   12648384
-      bcolo           =   12648384
-      fcol            =   0
-      fcolo           =   0
-      mcol            =   12632256
-      mptr            =   1
-      micon           =   "frmLibrerias.frx":05E0
-      umcol           =   -1  'True
-      soft            =   0   'False
-      picpos          =   0
-      ngrey           =   0   'False
-      fx              =   0
-      hand            =   0   'False
-      check           =   0   'False
-      value           =   0   'False
+      _ExtentX        =   1931
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   ""
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12648384
+      BCOLO           =   12648384
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmLibrerias.frx":04CE
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
    Begin VB.Label lblOK 
       AutoSize        =   -1  'True
@@ -605,12 +653,12 @@ On Error Resume Next
     Load DownloadForm
     If Err Then
         If Not LibraryExist("mscomctl.ocx", vbNormal) Then
-            Call LibError(5, "&Explorar")
+            Call LibError(3, "&Explorar")
         Else
-            Call LibError(5, "&Registrar")
+            Call LibError(3, "&Registrar")
         End If
     Else
-        Call LibOK(5)
+        Call LibOK(3)
     End If
             
     Err.Clear

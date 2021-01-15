@@ -21,37 +21,6 @@ Attribute VB_Name = "mod_General"
 
 Option Explicit
 
-Public Type DDEXCFG
-    vsync As Byte
-    api As Byte
-    Modo As Byte
-    MODO2 As Byte
-    memoria As Byte
-    isDefferal As Byte
-End Type
-
-Public Type tSetupMods
-    bDinamic    As Boolean
-    byMemory    As Byte
-    bUseVideo   As Boolean
-    bNoMusic    As Boolean
-    bNoSound    As Boolean
-    bNoRes      As Boolean ' 24/06/2006 - ^[GS]^
-    bNoSoundEffects As Boolean
-    sGraficos   As String * 13
-    bGuildNews  As Boolean ' 11/19/09
-    bDie        As Boolean ' 11/23/09 - FragShooter
-    bKill       As Boolean ' 11/23/09 - FragShooter
-    byMurderedLevel As Byte ' 11/23/09 - FragShooter
-    bActive     As Boolean
-    bGldMsgConsole As Boolean
-    bCantMsgs   As Byte
-    bRightClick As Boolean
-    ddexConfig As DDEXCFG
-    ddexConfigured As Boolean
-    ddexSelectedPlugin As String
-End Type
-
 Public Const SW_SHOWNORMAL As Long = 1
 Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
@@ -72,35 +41,18 @@ Public Sub LeerSetup()
 '*************************************************
 On Error Resume Next
 
-    'Check if the old config file exists
-    If OldConfigExists() Then
-        ' Migrate the old config file to the new format
-        'Call MigrateOldConfigFormat
-        'Remove the old file
-       ' Call RemoveOldConfigFile
-    End If
-
-    
-    frmAOSetup.chkPantallaCompleta.Value = GameConfig.Graphics.bUseFullScreen ' 24/06/2006 - ^[GS]^
+    frmAOSetup.chkPantallaCompleta.Value = BooleanToNumber(GameConfig.Graphics.bUseFullScreen)
         
-    frmAOSetup.chkCompatible.Value = GameConfig.Graphics.bUseCompatibleMode
+    frmAOSetup.chkCompatible.Value = BooleanToNumber(GameConfig.Graphics.bUseCompatibleMode)
     
-    frmAOSetup.chkVSync.Value = GameConfig.Graphics.bUseVerticalSync
+    frmAOSetup.chkVSync.Value = BooleanToNumber(GameConfig.Graphics.bUseVerticalSync)
     
-    frmAOSetup.chkMusica.Value = GameConfig.Sounds.bMusicEnabled
+    frmAOSetup.chkMusica.Value = BooleanToNumber(GameConfig.Sounds.bMusicEnabled)
     
-    frmAOSetup.chkSonido.Value = GameConfig.Sounds.bSoundsEnabled
+    frmAOSetup.chkSonido.Value = BooleanToNumber(GameConfig.Sounds.bSoundsEnabled)
     
-    frmAOSetup.chkEfectos.Value = GameConfig.Sounds.bSoundEffectsEnabled
-    
-    If GameConfig.Graphics.GraphicsIndToUse <> vbNullString Then
-        If GameConfig.Graphics.GraphicsIndToUse = "Graficos1.ind" Then
-            frmAOSetup.optSmall.Value = True
-        ElseIf GameConfig.Graphics.GraphicsIndToUse = "Graficos2.ind" Then
-            frmAOSetup.OptAverage.Value = True
-        End If
-    End If
-    
+    frmAOSetup.chkEfectos.Value = BooleanToNumber(GameConfig.Sounds.bSoundEffectsEnabled)
+
     If GameConfig.Guilds.bShowGuildNews Then
         frmAOSetup.optMostrarNoticias.Value = True
         frmAOSetup.optNoMostrar.Value = False
